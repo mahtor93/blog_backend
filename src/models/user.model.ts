@@ -25,3 +25,28 @@ export const createUser = async (user: Omit<User,'id'>): Promise<User> =>{
         conn.release();
     }
 }
+
+export const findUserByEmail = async (email_usuario: string): Promise<User|null> => {
+    const conn = await client.connect();
+    try{
+        const res = await conn.query(
+            `select email_usuario from usuario where email_usuario = ${email_usuario}` );
+            return res.rows[0] || null;
+    }catch(error){
+        console.error('Error al obtener el usuario', error);
+        return null;
+    }finally{
+        conn.release();
+    }
+}
+
+/*
+export const findUserById = async (id:string):Promise<User|null> =>{
+    const conn = await client.connect();
+    try{
+        
+    }catch(error){
+    
+    }
+}
+*/
