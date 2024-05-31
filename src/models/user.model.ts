@@ -12,8 +12,7 @@ export interface User{
 
 export const createUser = async (user: Omit<User,'id'>): Promise<User> =>{
     const id = uuidv4();
-    const fk_rol_usuario = getRolByName('admin');
-    const { nombre_usuario, email_usuario,hash_passwd} = user;
+    const { nombre_usuario, fk_rol_usuario,email_usuario,hash_passwd} = user;
     const conn = await client.connect();
     try{
         const res = await conn.query(
@@ -40,6 +39,19 @@ export const findUserByEmail = async (email_usuario: string): Promise<User|null>
     }
 }
 
+export const findUserByName = async (user_name:string): Promise<User|null> => {
+    const conn = await client.connect();
+    try{
+        const res = await conn.query(`select user_name from usuario where user_name = ${user_name}`);
+        return res.rows[0] || null;
+    }catch(error){
+        console.error('Error al obtener el usuario', error);
+        return null;
+    }finally{
+        conn.release();
+    }
+}
+
 /*
 export const findUserById = async (id:string):Promise<User|null> =>{
     const conn = await client.connect();
@@ -49,4 +61,5 @@ export const findUserById = async (id:string):Promise<User|null> =>{
     
     }
 }
+
 */
