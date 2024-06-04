@@ -2,7 +2,8 @@
   "name": "blog_backend",
   "version": "1.0.0",
   "description": "backend for basic blogging system",
-  "main": "build/app.js",
+  "main": "./dist/app.js",
+
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon"
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.21",
+    "@types/node": "^20.14.1",
     "typescript": "^5.4.5"
   }
 }
