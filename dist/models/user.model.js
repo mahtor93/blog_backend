@@ -17,10 +17,10 @@ const connect_1 = __importDefault(require("../connect"));
 const uuid_1 = require("uuid");
 const createUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
     const id = (0, uuid_1.v4)();
-    const { nombre_usuario, fk_rol_usuario, email_usuario, hash_passwd } = user;
+    const { user_name, fk_rol_usuario, email_usuario, hash_passwd } = user;
     const conn = yield connect_1.default.connect();
     try {
-        const res = yield conn.query('Insert into usuario (id, fk_rol_usuario, nombre_usuario,email_usuario,hash_passwd) values ($1,$2,$3,$4,$5) returning *', [id, fk_rol_usuario, nombre_usuario, email_usuario, hash_passwd]);
+        const res = yield conn.query('Insert into usuario (id, fk_rol_usuario, nombre_usuario,email_usuario,hash_passwd) values ($1,$2,$3,$4,$5) returning *', [id, fk_rol_usuario, user_name, email_usuario, hash_passwd]);
         return res.rows[0];
     }
     finally {
@@ -31,11 +31,11 @@ exports.createUser = createUser;
 const findUserByEmail = (email_usuario) => __awaiter(void 0, void 0, void 0, function* () {
     const conn = yield connect_1.default.connect();
     try {
-        const res = yield conn.query(`select email_usuario from usuario where email_usuario = ${email_usuario}`);
+        const res = yield conn.query('select email_usuario from usuario where email_usuario = $1', [email_usuario]);
         return res.rows[0] || null;
     }
     catch (error) {
-        console.error('Error al obtener el usuario', error);
+        console.error('Error al obtener el email de usuario', error);
         return null;
     }
     finally {
@@ -46,7 +46,7 @@ exports.findUserByEmail = findUserByEmail;
 const findUserByName = (user_name) => __awaiter(void 0, void 0, void 0, function* () {
     const conn = yield connect_1.default.connect();
     try {
-        const res = yield conn.query(`select user_name from usuario where user_name = ${user_name}`);
+        const res = yield conn.query('select user_name from usuario where user_name = $1', [user_name]);
         return res.rows[0] || null;
     }
     catch (error) {

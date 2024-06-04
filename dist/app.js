@@ -30,10 +30,11 @@ const testConnection = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 testConnection();
 const app = (0, express_1.default)();
+app.use(body_parser_1.default.json());
+app.use(express_1.default.json());
 app.use(router_1.default);
 const port = 3000;
 app.listen(port, () => {
     console.log(`Server running at ${port}`);
 });
-app.use(body_parser_1.default.json());
 exports.default = app;

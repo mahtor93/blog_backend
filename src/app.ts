@@ -17,12 +17,14 @@ const testConnection = async () => {
 testConnection();
 
 const app = express();
+app.use(bodyParser.json())
+app.use(express.json())
 app.use(router);
 const port = 3000;
 app.listen(port,()=>{
     console.log(`Server running at ${port}`);
 })
-app.use(bodyParser.json())
+
 
 
 

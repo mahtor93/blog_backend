@@ -27,7 +27,7 @@ export const createRole = async (rol: Omit<Rol, 'id'>): Promise<Rol | null> =>{
 export const getRolById = async (id:string): Promise<Rol | null> => {
     const conn = await client.connect();
     try{
-        const res = await client.query(`Select * from rol_usuario WHERE id = ${id}`);
+        const res = await client.query('Select * from rol_usuario WHERE id = $1',[id]);
         return res.rows[0] || null;
     }catch(error){
         console.error('error al obtener Rol por ID', error);
@@ -53,8 +53,8 @@ export const getAllRoles = async (): Promise<Rol[] | null> => {
 export const getRolByName = async (nombre_rol: string): Promise<Rol | null> =>{
     const conn = await client.connect();
     try{
-        const res = await conn.query(`SELECT id from rol_usuario where nombre_rol = ${nombre_rol}`);
-        return res.rows[0] || null;
+        const res = await conn.query('SELECT id from rol_usuario where nombre_rol = $1',[nombre_rol]);
+        return res.rows[0]?.id || null;
     }catch(error){
         console.error('error al obtener Rol por nombre', error);
         return null;
