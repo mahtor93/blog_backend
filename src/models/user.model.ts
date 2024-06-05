@@ -1,11 +1,15 @@
 import client from "../connect";
 import { v4 as uuidv4 } from "uuid";
-import { getRolByName } from "./roles.model";
 
 export interface User{
     id: string;
     fk_rol_usuario: string;
     user_name:string;
+    email_usuario:string;
+    hash_passwd:string;
+}
+
+export interface Login{
     email_usuario:string;
     hash_passwd:string;
 }
@@ -29,7 +33,7 @@ export const findUserByEmail = async (email_usuario: string): Promise<User|null>
     const conn = await client.connect();
     try{
         const res = await conn.query(
-            'select email_usuario from usuario where email_usuario = $1',[email_usuario]);
+            'select email_usuario, hash_passwd from usuario where email_usuario = $1',[email_usuario]);
             return res.rows[0] || null;
     }catch(error){
         console.error('Error al obtener el email de usuario', error);
