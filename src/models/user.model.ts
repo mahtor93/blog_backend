@@ -33,7 +33,7 @@ export const findUserByEmail = async (email_usuario: string): Promise<User|null>
     const conn = await client.connect();
     try{
         const res = await conn.query(
-            'select email_usuario, hash_passwd from usuario where email_usuario = $1',[email_usuario]);
+            'select id, email_usuario, hash_passwd from usuario where email_usuario = $1',[email_usuario]);
             return res.rows[0] || null;
     }catch(error){
         console.error('Error al obtener el email de usuario', error);
@@ -56,14 +56,16 @@ export const findUserByName = async (user_name:string): Promise<User|null> => {
     }
 }
 
-/*
-export const findUserById = async (id:string):Promise<User|null> =>{
+export const findUserById = async (id: string): Promise<User | null> => {
     const conn = await client.connect();
-    try{
-        
-    }catch(error){
-    
+    try {
+        console.log(id)
+        const res = await conn.query('SELECT id, nombre_usuario, email_usuario, fk_rol_usuario FROM usuario WHERE id = $1', [id]);
+        return res.rows[0] || null;
+    } catch (error) {
+        console.error("Error al obtener el usuario", error);
+        return null;
+    } finally {
+        conn.release();
     }
-}
-
-*/
+};
