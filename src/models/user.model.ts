@@ -59,7 +59,6 @@ export const findUserByName = async (user_name:string): Promise<User|null> => {
 export const findUserById = async (id: string): Promise<User | null> => {
     const conn = await client.connect();
     try {
-        console.log(id)
         const res = await conn.query('SELECT id, nombre_usuario, email_usuario, fk_rol_usuario FROM usuario WHERE id = $1', [id]);
         return res.rows[0] || null;
     } catch (error) {

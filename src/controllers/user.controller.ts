@@ -57,7 +57,7 @@ export const loginUserHandler = async(req:Request, res:Response) => {
         const checkEmptyFiels = validationResult(req);
         const errMsg = []
         if(!checkEmptyFiels.isEmpty()){
-            console.log('no login')
+
             return res.send({errors: checkEmptyFiels.array()})
         }else{
             const login = req.body;

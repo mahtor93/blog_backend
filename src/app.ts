@@ -2,6 +2,9 @@ import express from "express";
 import router from "./routes/router";
 import client from "./connect";
 import bodyParser from "body-parser";
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const testConnection = async () => {
     try{
