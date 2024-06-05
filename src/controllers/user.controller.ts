@@ -32,9 +32,7 @@ export const createUserHandler = async (req: Request, res: Response) => {
             }
             const rol = await getRolByName('lector');
             if (!rol) {
-                return res.status(400).json({ error: 'Rol no encontrado' });
-            }else{
-                console.log(rol)
+                return res.status(400).json({ error: 'Missing Role' });
             }
             const hash_passwd = await Password.hashPassword(user.passwd);
             const newUser = {
@@ -44,10 +42,17 @@ export const createUserHandler = async (req: Request, res: Response) => {
                 fk_rol_usuario:String(rol)
             };
             const createdUser = await createUser(newUser);
-            console.log(createdUser);
             res.status(201).json(createdUser);
         }
     } catch (error) {
         res.status(500).json({ error: 'Internal server error: createUserHandler ' + error })
+    }
+}
+
+export const loginUserHandler = async(req:Request, res:Response) => {
+    try{
+        
+    }catch(error){
+        res.status(500).json({ error: 'Internal server error: loginUserHandler ' + error })
     }
 }
