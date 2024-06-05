@@ -1,5 +1,5 @@
 import express from "express";
-import router from "./routes/routes";
+import router from "./routes/router";
 import client from "./connect";
 import bodyParser from "body-parser";
 
@@ -17,12 +17,14 @@ const testConnection = async () => {
 testConnection();
 
 const app = express();
+app.use(bodyParser.json())
+app.use(express.json())
 app.use(router);
 const port = 3000;
 app.listen(port,()=>{
     console.log(`Server running at ${port}`);
 })
-app.use(bodyParser.json())
+
 
 
 

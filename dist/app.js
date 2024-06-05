@@ -12,21 +12,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUser = void 0;
-const connect_1 = __importDefault(require("../connect"));
-const uuid_1 = require("uuid");
-const roles_model_1 = require("./roles.model");
-const createUser = (user) => __awaiter(void 0, void 0, void 0, function* () {
-    const id = (0, uuid_1.v4)();
-    const fk_rol_usuario = (0, roles_model_1.getRolByName)('admin');
-    const { nombre_usuario, email_usuario, hash_passwd } = user;
-    const conn = yield connect_1.default.connect();
+const express_1 = __importDefault(require("express"));
+const router_1 = __importDefault(require("./routes/router"));
+const connect_1 = __importDefault(require("./connect"));
+const body_parser_1 = __importDefault(require("body-parser"));
+const testConnection = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const res = yield conn.query('Insert into usuario (id, fk_rol_usuario, nombre_usuario,email_usuario,hash_passwd) values ($1,$2,$3,$4,$5) returning *', [id, fk_rol_usuario, nombre_usuario, email_usuario, hash_passwd]);
-        return res.rows[0];
-    }
-    finally {
+        const conn = yield connect_1.default.connect();
+        console.log('Conexión exitosa a la base de datos');
+        const res = yield conn.query('Select now()');
+        console.log(res.rows[0]);
         conn.release();
     }
+    catch (err) {
+        console.error("Error conectando a la base de datos", err);
+    }
 });
-exports.createUser = createUser;
+testConnection();
+const app = (0, express_1.default)();
+app.use(body_parser_1.default.json());
+app.use(express_1.default.json());
+app.use(router_1.default);
+const port = 3000;
+app.listen(port, () => {
+    console.log(`Server running at ${port}`);
+});
+exports.default = app;

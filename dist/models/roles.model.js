@@ -35,7 +35,7 @@ exports.createRole = createRole;
 const getRolById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const conn = yield connect_1.default.connect();
     try {
-        const res = yield connect_1.default.query(`Select * from rol_usuario WHERE id = ${id}`);
+        const res = yield connect_1.default.query('Select * from rol_usuario WHERE id = $1', [id]);
         return res.rows[0] || null;
     }
     catch (error) {
@@ -63,10 +63,11 @@ const getAllRoles = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getAllRoles = getAllRoles;
 const getRolByName = (nombre_rol) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
     const conn = yield connect_1.default.connect();
     try {
-        const res = yield conn.query(`SELECT id from rol_usuario where nombre_rol = ${nombre_rol}`);
-        return res.rows[0] || null;
+        const res = yield conn.query('SELECT id from rol_usuario where nombre_rol = $1', [nombre_rol]);
+        return ((_a = res.rows[0]) === null || _a === void 0 ? void 0 : _a.id) || null;
     }
     catch (error) {
         console.error('error al obtener Rol por nombre', error);
