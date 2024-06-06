@@ -68,3 +68,14 @@ export const findUserById = async (id: string): Promise<User | null> => {
         conn.release();
     }
 };
+
+export const findAllUsers = async(): Promise<User[] | null> => {
+    const conn = await client.connect();
+    try{
+        const res = await conn.query('select u.id, u.nombre_usuario, u.email_usuario, r.nombre_rol from usuario u join rol_usuario r on u.fk_rol_usuario = r.id ;');
+        return res.rows || null;
+    }catch(error){
+        console.error("Error al obtener lista de usuarios");
+        return null;
+    }
+}
