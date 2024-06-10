@@ -1,15 +1,19 @@
-import jwt, {Secret,JwtPayload} from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { User } from "../models/user.model";
 
 export const loginToken = (user: User) => {
     try{
+        const SECRET_KEY = process.env.JWT_KEY || "defaultsecretkey"
         const token =  jwt.sign({id:user.id.toString(), user_name:user.user_name, user_email:user.email_usuario, rol:user.fk_rol_usuario}, 
-        String(process.env.JWT_KEY),
-        { expiresIn: '1 day'}
-        );
+        SECRET_KEY,
+        {   
+            algorithm: 'HS256',
+            expiresIn: '1d'
+        });
         return token    
     }catch(error){
         return error;
     }
 
 }
+

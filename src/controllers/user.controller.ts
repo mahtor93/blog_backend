@@ -57,7 +57,7 @@ export const loginUserHandler = async(req:Request, res:Response) => {
         const checkEmptyFiels = validationResult(req);
         const errMsg = []
         if(!checkEmptyFiels.isEmpty()){
-            console.log('no login')
+
             return res.send({errors: checkEmptyFiels.array()})
         }else{
             const login = req.body;
@@ -81,7 +81,9 @@ export const loginUserHandler = async(req:Request, res:Response) => {
             }
     
             const token = loginToken(loginUser);
-            return res.status(201).json({token, msg:'Login! ! ! '})
+
+            res.cookie("credencial",token)
+            return res.status(200).json({msg:'Login!'})
 
         }
     }catch(error){
