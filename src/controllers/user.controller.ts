@@ -81,7 +81,9 @@ export const loginUserHandler = async(req:Request, res:Response) => {
             }
     
             const token = loginToken(loginUser);
-            return res.status(201).json({token, msg:'Login! ! ! '})
+
+            res.cookie("credencial",token)
+            return res.status(200).json({msg:'Login!'})
 
         }
     }catch(error){
